@@ -67,3 +67,15 @@ h1 {
 	width: 30px;
 	height: 30px;
 }
+
+.intro {
+	height: 100vh;
+	display: grid;
+	align-content: center;
+	background: linear-gradient(150deg, var(--primary), var(--secondary));
+	padding-left: 100px;
+}
+
+.intro > * {
+	grid-column: 1 / 3;
+}
