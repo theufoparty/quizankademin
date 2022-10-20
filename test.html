@@ -5,19 +5,22 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<link rel="stylesheet" href="style.css" />
-		<title>Frontpage</title>
+		<title>Quiz</title>
 	</head>
 	<body class="darkmode">
 		<button id="dark-mode-button" class="dark-mode-button"></button>
 
-		<section class="intro">
-			<h1>Quiz Ankademin</h1>
-			<p class="undertitle">
-				Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptates rem molestias ipsum
-				nulla libero optio.
-			</p>
-			<div class="btn-group">
-				<a href="test.html" class="btn">Börja Test</a>
+		<section class="introtest">
+			<div class="question-container">
+				<div class="container">
+					<form class="quiz-form"></form>
+				</div>
+
+				<div class="result-container hidden">
+					<div>
+						<p class="result-text">You are <span class="percentage">0%</span> correct</p>
+					</div>
+				</div>
 			</div>
 		</section>
 
