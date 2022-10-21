@@ -9,9 +9,12 @@
 	--dark: #21445f;
 	--primary: #f8fafd;
 	--secondary: #3c7caf;
+	--contrast: #ad5808;
 
 	--foreground: var(--dark);
 	--background: var(--light);
+	--textcolor: var(--dark);
+	--buttoncolor: var(--contrast);
 }
 
 .darkmode {
@@ -19,9 +22,12 @@
 	--dark: #21445f;
 	--primary: #7badd3;
 	--secondary: #070f15;
+	--contrast: #7c3b15;
 
 	--foreground: var(--light);
 	--background: var(--dark);
+	--textcolor: var(--dark);
+	--buttoncolor: var(--contrast);
 }
 
 body {
@@ -51,8 +57,9 @@ h1 {
 	display: inline-block;
 	line-height: 1;
 	border: none;
-	background: var(--foreground);
-	color: var(--background);
+	background: var(--buttoncolor);
+	color: var(--light);
+	margin: 0 0 2rem 0;
 }
 
 .btn-submit {
@@ -60,6 +67,19 @@ h1 {
 	height: 54px;
 	font-size: 1em;
 	margin-top: 2em;
+}
+
+.test-button {
+	padding: 1em 2em;
+	text-decoration: none;
+	text-transform: uppercase;
+	border-radius: 5px;
+	position: relative;
+	display: inline-block;
+	line-height: 1;
+	border: none;
+	background: var(--foreground);
+	color: var(--background);
 }
 
 .dark-mode-button {
@@ -95,6 +115,9 @@ h1 {
 	min-height: 100vh;
 	padding: 100px 80px 100px 10px;
 	margin-left: 3rem;
+	display: flex;
+	justify-content: center;
+	color: var(--textcolor);
 }
 
 .result-container {
@@ -108,6 +131,13 @@ h1 {
 	border-radius: 50%;
 	width: 500px;
 	height: 500px;
+}
+
+.container {
+	width: 500px;
+	background: var(--light);
+	border-radius: 12px;
+	padding: 0 0 0 2rem;
 }
 
 .result-text {
