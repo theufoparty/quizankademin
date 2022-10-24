@@ -42,10 +42,12 @@ h1 {
 	font-size: 6rem;
 	margin: 0 0 0.25em;
 	line-height: 1;
+	z-index: 7;
 }
 
 .undertitle {
 	max-width: 600px;
+	z-index: 10;
 }
 
 .btn {
@@ -80,6 +82,7 @@ h1 {
 	border: none;
 	background: var(--foreground);
 	color: var(--background);
+	z-index: 10;
 }
 
 .dark-mode-button {
@@ -113,24 +116,34 @@ h1 {
 
 .question-container {
 	min-height: 100vh;
-	padding: 100px 80px 100px 10px;
-	margin-left: 3rem;
 	display: flex;
 	justify-content: center;
+	align-items: center;
 	color: var(--textcolor);
 }
 
 .result-container {
-	margin: auto;
-	margin-top: 5rem;
+	margin-right: 4rem;
 	background: var(--light);
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	transition: opacity 1s;
+	transition: opacity 10s;
 	border-radius: 50%;
 	width: 500px;
 	height: 500px;
+	margin: 2rem;
+}
+
+.answer-container {
+	margin-left: 4rem;
+	background-color: var(--light);
+	border-radius: 12px;
+	padding: 1rem 1rem 1rem 3rem;
+	min-height: 450px;
+	min-width: 450px;
+	display: flex;
+	align-items: center;
 }
 
 .container {
@@ -138,10 +151,16 @@ h1 {
 	background: var(--light);
 	border-radius: 12px;
 	padding: 0 0 0 2rem;
+	margin: 3rem 0 4rem 0;
 }
 
 .result-text {
 	color: var(--dark);
+}
+
+.answer-text {
+	color: var(--dark);
+	line-height: 2;
 }
 
 .hidden {
@@ -151,4 +170,55 @@ h1 {
 span {
 	font-size: 55px;
 	padding: 10px;
+}
+
+/* TEST */
+
+.box-1 {
+	height: 250px;
+	width: 250px;
+	background-color: #ddeaf3;
+	position: absolute;
+	top: 80px;
+	left: 50px;
+	z-index: 1;
+	border-radius: 50%;
+	opacity: 90%;
+}
+
+.box-2 {
+	height: 180px;
+	width: 180px;
+	background-color: #31658c;
+	position: absolute;
+	top: 220px;
+	left: 40px;
+	z-index: 6;
+	border-radius: 50%;
+	opacity: 60%;
+}
+
+.box-3 {
+	height: 180px;
+	width: 180px;
+	background-color: transparent;
+	opacity: 40%;
+	border: #4185ba solid 40px;
+	position: absolute;
+	top: 140px;
+	left: 200px;
+	z-index: 2;
+	border-radius: 50%;
+}
+
+.box-4 {
+	height: 80px;
+	width: 80px;
+	background-color: #6ca2cc;
+	opacity: 80%;
+	position: absolute;
+	top: 80px;
+	left: 250px;
+	z-index: 3;
+	border-radius: 50%;
 }
