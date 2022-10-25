@@ -9,12 +9,11 @@
 	--dark: #21445f;
 	--primary: #f8fafd;
 	--secondary: #3c7caf;
-	--contrast: #ad5808;
 
 	--foreground: var(--dark);
 	--background: var(--light);
 	--textcolor: var(--dark);
-	--buttoncolor: var(--contrast);
+	--buttoncolor: var(--dark);
 }
 
 .darkmode {
@@ -22,12 +21,11 @@
 	--dark: #21445f;
 	--primary: #7badd3;
 	--secondary: #070f15;
-	--contrast: #7c3b15;
 
 	--foreground: var(--light);
 	--background: var(--dark);
 	--textcolor: var(--dark);
-	--buttoncolor: var(--contrast);
+	--buttoncolor: var(--dark);
 }
 
 body {
@@ -128,7 +126,6 @@ h1 {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	transition: opacity 10s;
 	border-radius: 50%;
 	width: 500px;
 	height: 500px;
