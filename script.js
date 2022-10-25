@@ -24,6 +24,8 @@ darkModeToggle.addEventListener("click", () => {
 
 // ------------------------------- QUESTIONS ------------------------------- //
 
+// SKAPA INPUT ELEMENT TILL DE OLIKA TYPERNA AV FRÅGOR
+
 const getInputElement = (inputName, inputValue, labelText, type) => {
 	const wrapperElement = document.createElement("div");
 	wrapperElement.classList.add("form-check");
@@ -38,6 +40,8 @@ const getInputElement = (inputName, inputValue, labelText, type) => {
 	wrapperElement.append(labelElement);
 	return wrapperElement;
 };
+
+// TYPER AV FRÅGOR
 
 const getTrueFalseQuestionElement = (question, index) => {
 	const parent = document.createElement("div");
@@ -95,13 +99,13 @@ const getColorFromScore = (score) => {
 	return "#bb2323";
 };
 
+// LISTA MED FRÅGOR
+
 const questionTypes = {
 	trueFalse: "truefalse",
 	multiple: "multiple",
 	checkbox: "checkbox",
 };
-
-// Lista med frågor
 
 const questions = [
 	{
@@ -232,7 +236,7 @@ questions.forEach((question, index) => {
 // Efter frågorna, skapa submitknapp
 
 const buttonWrapper = document.createElement("div");
-buttonWrapper.classList.add("button-container");
+buttonWrapper.classList.add("btn-container");
 const buttonInput = document.createElement("input");
 buttonInput.type = "submit";
 buttonInput.classList.add("btn");
@@ -240,13 +244,32 @@ buttonInput.classList.add("btn-submit");
 buttonWrapper.append(buttonInput);
 form.append(buttonWrapper);
 
-// Saker
+// ELEMENT FRÅN DOM:EN
 
-const result = document.querySelector(".result-container");
-const hidequestion = document.querySelector(".container");
+const result = document.querySelector(".score-container");
+const hidequestion = document.querySelector(".test-container");
 const hideanswer = document.querySelector(".answer-container");
+const hideresult = document.querySelector(".result-container");
 
 // Resultat
+
+const getValuesForCheckboxQuestion = (questionIndex) => {
+	// Hämtar alla inputelement där namnet är q{questionIndex + 1} som även är ikryssade.
+	const checkboxes = document.querySelectorAll(`input[name="q${questionIndex + 1}"]:checked`);
+	let values = [];
+	checkboxes.forEach((checkbox) => {
+		values.push(checkbox.value);
+	});
+	return values;
+};
+
+const compareValueArrays = (values1, values2) => {
+	// Sorterar listorna och därefter konverterar de sorterade listorna till strängar
+	const valueString1 = JSON.stringify(values1.sort());
+	const valueString2 = JSON.stringify(values2.sort());
+	// Om strängarna är identiska så innehåller listorna samma saker och vi returnerar true
+	return valueString1 === valueString2;
+};
 
 form.addEventListener("submit", (e) => {
 	e.preventDefault();
@@ -255,12 +278,8 @@ form.addEventListener("submit", (e) => {
 	let answerString = "";
 	questions.forEach((question, index) => {
 		if (question.type === questionTypes.checkbox) {
-			const checkboxes = document.querySelectorAll(`input[name="q${index + 1}"]:checked`);
-			let values = [];
-			checkboxes.forEach((checkbox) => {
-				values.push(checkbox.value);
-			});
-			isCorrect = JSON.stringify(values.sort()) === JSON.stringify(question.answer.sort());
+			const values = getValuesForCheckboxQuestion(index);
+			const isCorrect = compareValueArrays(values, question.answer);
 
 			if (isCorrect) {
 				score += 100 / questions.length;
@@ -278,18 +297,20 @@ form.addEventListener("submit", (e) => {
 			}
 		}
 	});
-	result.classList.remove("hidden");
+
 	hidequestion.classList.add("hidden");
-	hideanswer.classList.remove("hidden");
+	hideresult.classList.remove("hidden");
+	setTimeout(() => hideresult.classList.add("visible"), 0);
 
 	const answerTextElement = document.querySelector(".answer-text");
 	answerTextElement.innerText = answerString;
 
 	let output = 0;
 	const timer = setInterval(() => {
-		result.querySelector("span").textContent = `${output}%`;
-		result.querySelector("span").style.color = getColorFromScore(output);
-		if (output === score) {
+		// math floor används för att avrunda ner talet för att inte få ett tal med många decimaler.
+		result.querySelector("span").textContent = `${Math.floor(output)}%`;
+		result.querySelector("span").style.color = getColorFromScore(Math.floor(output));
+		if (output >= score) {
 			clearInterval(timer);
 		} else {
 			output++;
