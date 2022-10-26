@@ -327,6 +327,16 @@ const getColorFromScore = (score) => {
 	return "#bb2323";
 };
 
+const getGradeFromScore = (score) => {
+	if (score >= 75) {
+		return "Grade: Very Well Approved";
+	}
+	if (score >= 50) {
+		return "Grade: Approved";
+	}
+	return "NOT APPROVED LOOSER";
+};
+
 // Helperfunktion som hämtar värden från checkbox frågor.
 
 const getValuesForCheckboxQuestion = (question) => {
@@ -381,6 +391,7 @@ form.addEventListener("submit", (e) => {
 	setTimeout(() => resultcontainer.classList.add("visible"), 0);
 
 	resultText.querySelector("p").innerText = answerString;
+	resultScore.querySelector(".grade-text").innerText = getGradeFromScore(score);
 
 	let output = 0;
 	const timer = setInterval(() => {

@@ -173,6 +173,7 @@ h2 {
 
 .result-text {
 	color: var(--dark);
+	text-align: center;
 }
 
 .answer-text {
@@ -191,6 +192,10 @@ h2 {
 span {
 	font-size: 55px;
 	padding: 10px;
+}
+
+.grade-text {
+	text-align: center;
 }
 
 .box-1 {
