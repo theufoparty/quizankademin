@@ -19,7 +19,7 @@
 .darkmode {
 	--light: #fffdfa;
 	--dark: #21445f;
-	--primary: #7badd3;
+	--primary: #779dbb;
 	--secondary: #070f15;
 
 	--foreground: var(--light);
@@ -48,10 +48,16 @@ h1 {
 	z-index: 10;
 }
 
+.quiz-form {
+	display: flex;
+	flex-direction: column;
+}
+
 .btn-container {
 	display: flex;
 	justify-content: center;
 	padding: 1em;
+	order: 1;
 }
 
 .btn {
@@ -85,6 +91,7 @@ h1 {
 	background: var(--foreground);
 	color: var(--background);
 	z-index: 10;
+	margin-top: 0.5em;
 }
 
 .dark-mode-button {
@@ -194,7 +201,7 @@ span {
 	left: 50px;
 	z-index: 1;
 	border-radius: 50%;
-	opacity: 90%;
+	opacity: 80%;
 }
 
 .box-2 {
