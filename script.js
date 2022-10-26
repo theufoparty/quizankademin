@@ -347,6 +347,8 @@ const compareValueArrays = (values1, values2) => {
 	return valueString1 === valueString2;
 };
 
+// Resultat
+
 form.addEventListener("submit", (e) => {
 	e.preventDefault();
 
