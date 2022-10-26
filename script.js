@@ -4,12 +4,12 @@ const darkModeClassName = "darkmode";
 
 const darkModeToggle = document.querySelector("#dark-mode-button");
 
-const enableDarkMode = () => {
-	document.body.classList.add(darkModeClassName);
-};
-
 const disableDarkMode = () => {
 	document.body.classList.remove(darkModeClassName);
+};
+
+const enableDarkMode = () => {
+	document.body.classList.add(darkModeClassName);
 };
 
 // När någon klickar på Darkmode knappen
