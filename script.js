@@ -9,7 +9,9 @@ const getInputElement = (inputName, inputValue, labelText, type) => {
 	inputElement.type = type;
 	inputElement.name = inputName;
 	inputElement.value = inputValue;
+	inputElement.id = inputName + inputValue;
 	const labelElement = document.createElement("label");
+	labelElement.htmlFor = inputName + inputValue;
 	labelElement.innerText = labelText;
 	wrapperElement.append(inputElement);
 	wrapperElement.append(labelElement);
@@ -35,7 +37,7 @@ const getQuestionElement = (question, index) => {
 	return questionWrapper;
 };
 
-// ------------------------------- QUESTION LIST ------------------------------- //
+// ------------------------------- QUESTIONS------------------------------- //
 
 const questionTypes = {
 	radio: "radio",
@@ -140,8 +142,8 @@ const questions = [
 		type: questionTypes.radio,
 	},
 	{
-		text: "Does lands count as permanents?",
-		answer: "A",
+		text: "Does lands count as non-permanents?",
+		answer: "B",
 		inputName: "q5",
 		choices: [
 			{
@@ -156,8 +158,8 @@ const questions = [
 		type: questionTypes.radio,
 	},
 	{
-		text: "Sjätte Frågan?",
-		answer: "B",
+		text: "Is Planeswalker a card type in Magic?",
+		answer: "A",
 		inputName: "q6",
 		choices: [
 			{
@@ -172,8 +174,8 @@ const questions = [
 		type: questionTypes.radio,
 	},
 	{
-		text: "Sjunde Frågan?",
-		answer: "A",
+		text: "Cards can only represent one color of mana.",
+		answer: "B",
 		inputName: "q7",
 		choices: [
 			{
@@ -224,72 +226,72 @@ const questions = [
 		type: questionTypes.checkbox,
 	},
 	{
-		text: "What does the Black color stand for?",
-		answer: ["A", "B", "C", "E", "G"],
+		text: "Which of the following are colors of mana in Magic?",
+		answer: ["B", "C", "E", "F", "G"],
 		inputName: "q9",
 		choices: [
 			{
-				label: "Power",
+				label: "Yellow",
 				value: "A",
 			},
 			{
-				label: "Death",
+				label: "Black",
 				value: "B",
 			},
 			{
-				label: "Sacrifice",
+				label: "White",
 				value: "C",
 			},
 			{
-				label: "Caution",
+				label: "Purple",
 				value: "D",
 			},
 			{
-				label: "Self-interest",
+				label: "Blue",
 				value: "E",
 			},
 			{
-				label: "Impulse",
+				label: "Red",
 				value: "F",
 			},
 			{
-				label: "Uninhibitedness",
+				label: "Green",
 				value: "G",
 			},
 		],
 		type: questionTypes.checkbox,
 	},
 	{
-		text: "What does the Black color stand for?",
-		answer: ["A", "B", "C", "E", "G"],
+		text: "Which of the following is not a set in Magic?",
+		answer: ["F"],
 		inputName: "q10",
 		choices: [
 			{
-				label: "Power",
+				label: "Throne Of Eldraine",
 				value: "A",
 			},
 			{
-				label: "Death",
+				label: "Worldwake",
 				value: "B",
 			},
 			{
-				label: "Sacrifice",
+				label: "Mirrodin",
 				value: "C",
 			},
 			{
-				label: "Caution",
+				label: "Urza's Saga",
 				value: "D",
 			},
 			{
-				label: "Self-interest",
+				label: "Exodus",
 				value: "E",
 			},
 			{
-				label: "Impulse",
+				label: "Daedra",
 				value: "F",
 			},
 			{
-				label: "Uninhibitedness",
+				label: "Alpha",
 				value: "G",
 			},
 		],
