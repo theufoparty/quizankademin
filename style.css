@@ -38,14 +38,14 @@ body {
 
 h1 {
 	font-size: 6em;
-	margin: 0 0 -0.09em;
-	line-height: 1;
+	margin: 0 0 -0.08em;
+	line-height: 0.9;
 	z-index: 5;
 }
 
 h2 {
 	font-size: 0.78rem;
-	margin: 0 0 0 0rem;
+	margin: 0;
 	z-index: 5;
 }
 
@@ -64,6 +64,7 @@ h2 {
 	justify-content: center;
 	padding: 1em;
 	order: 1;
+	padding: 1em 1em 1em 0em;
 }
 
 .btn {
@@ -109,7 +110,7 @@ h2 {
 	border: 2px solid var(--foreground);
 	background: transparent;
 	cursor: pointer;
-	border-radius: 3px;
+	border-radius: 5px;
 	width: 30px;
 	height: 30px;
 }
@@ -149,22 +150,22 @@ h2 {
 	width: fit-content;
 	margin: 0;
 	opacity: 0;
-	transition: opacity 3s ease-out;
+	transition: opacity 2s ease-out;
 }
 
 .score-container {
-	margin-right: 2em;
 	background: var(--light);
-	display: flex;
-	justify-content: center;
-	align-items: center;
 	border-radius: 50%;
 	width: 500px;
 	height: 500px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-right: 2em;
 }
 
 .answer-container {
-	background-color: var(--light);
+	background: var(--light);
 	border-radius: 12px;
 	min-height: 450px;
 	min-width: 500px;
@@ -195,8 +196,6 @@ span {
 	font-size: 55px;
 	padding: 10px;
 }
-
-/* TEST */
 
 .box-1 {
 	height: 250px;

@@ -1,7 +1,6 @@
 // ------------------------------- QUESTION CREATION ------------------------------- //
 
 // Helperfuktion för att skapa våra input element, checkbox och radiobuttons med deras tillhörande labels.
-// Vi lägger till tre attributer till inputElement, type (radio eller checkbox), name (t.ex. q3) och value (A, B, C, D)
 
 const getInputElement = (inputName, inputValue, labelText, type) => {
 	const wrapperElement = document.createElement("div");
@@ -70,7 +69,7 @@ const questions = [
 		type: questionTypes.radio,
 	},
 	{
-		text: "What is the standard starting life total?",
+		text: "What is your standard starting life?",
 		answer: "B",
 		inputName: "q2",
 		choices: [
@@ -87,7 +86,7 @@ const questions = [
 				value: "C",
 			},
 			{
-				label: "Twentyone",
+				label: "Twenty-one",
 				value: "D",
 			},
 		],
@@ -174,7 +173,7 @@ const questions = [
 		type: questionTypes.radio,
 	},
 	{
-		text: "Cards can only represent one color of mana.",
+		text: "Can cards only represent one color of mana?",
 		answer: "B",
 		inputName: "q7",
 		choices: [
@@ -301,7 +300,7 @@ const questions = [
 
 const form = document.querySelector(".quiz-form");
 
-// För varje fråga, hämta ett element med getQuestionElement och lägg till i Form.
+// För varje fråga, hämta ett element med getQuestionElement och lägg till i form.
 
 questions.forEach((question, index) => {
 	const questionElement = getQuestionElement(question, index);
@@ -331,10 +330,8 @@ const getColorFromScore = (score) => {
 // Helperfunktion som hämtar värden från checkbox frågor.
 
 const getValuesForCheckboxQuestion = (question) => {
-	// Hämtar alla inputelement som har samma namn samt är ikryssade.
 	const checkboxes = document.querySelectorAll(`input[name="${question.inputName}"]:checked`);
 	const values = [];
-	// För varje checkbox i checkboxes som är checked, ta det värdet(A, B, C, D) och lägg till det i values listan.
 	checkboxes.forEach((checkbox) => {
 		values.push(checkbox.value);
 	});
@@ -357,9 +354,6 @@ form.addEventListener("submit", (e) => {
 	let answerString = "";
 
 	questions.forEach((question, index) => {
-		// Först kollar vi om question type är checkboxes, om det är checkboxes så använder vi
-		// helperfunktionen för att få svaren, sedan jämför vi svaren med frågans facit.
-		// Om variabel isCorrect kommer tillbaka som true så lägger vi till 100/q.length till score.
 		if (question.type === questionTypes.checkbox) {
 			const values = getValuesForCheckboxQuestion(question);
 			const isCorrect = compareValueArrays(values, question.answer);
@@ -370,8 +364,6 @@ form.addEventListener("submit", (e) => {
 				answerString += `${index + 1}. ${question.text} : Wrong!\n`;
 			}
 		} else {
-			// Om det inte är checkbox vet vi att det är radio buttons och endast ett korrekt svar
-			// Så här kontrollerar vi om vårat formAnswer är samma som vår frågans facit.
 			const formAnswer = form[question.inputName].value;
 			if (formAnswer === question.answer) {
 				score += 100 / questions.length;
@@ -382,20 +374,12 @@ form.addEventListener("submit", (e) => {
 		}
 	});
 
-	// setTimeout behövde användas då jag fick problem med att få resultatet att fade:a in snyggt.
-	// Jag tänkte först göra resultatet till display none för att det inte skulle ta upp plats i layouten innan det skulle visas.
-	// Samtidigt som att det skulle fade:a in när det ska visas, problemet var att om man tar bort display none och lägger till
-	// opacity 1 samtidigt triggas inte animationen från opacity 0 till 1, då allt utfördes i ett steg i JS.
-	// Men med setTimeout kan man ta bort display none, och därefter ändra till opacity 1 i två separata steg.
-
 	testcontainer.classList.add("hidden");
 	resultcontainer.classList.remove("hidden");
 	setTimeout(() => resultcontainer.classList.add("visible"), 0);
 
-	// Här presenteras resultatet genom att lägga till vår text av frågor med rätt och fel ifrån answerString i p-taggen. :)
 	resultText.querySelector("p").innerText = answerString;
 
-	// Här börjar vi animationen av resultatet i procentform.
 	let output = 0;
 	const timer = setInterval(() => {
 		resultScore.querySelector("span").textContent = `${output}%`;
@@ -405,5 +389,5 @@ form.addEventListener("submit", (e) => {
 		} else {
 			output++;
 		}
-	}, 10);
+	}, 25);
 });
