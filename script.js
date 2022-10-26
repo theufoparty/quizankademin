@@ -1,97 +1,320 @@
-// ------------------------------- DARKMODE ------------------------------- //
+// ------------------------------- QUESTION CREATION ------------------------------- //
 
-const darkModeClassName = "darkmode";
-
-const darkModeToggle = document.querySelector("#dark-mode-button");
-
-const disableDarkMode = () => {
-	document.body.classList.remove(darkModeClassName);
-};
-
-const enableDarkMode = () => {
-	document.body.classList.add(darkModeClassName);
-};
-
-// När någon klickar på Darkmode knappen
-darkModeToggle.addEventListener("click", () => {
-	const hasDarkmode = document.body.classList.contains(darkModeClassName);
-	if (hasDarkmode) {
-		disableDarkMode();
-	} else {
-		enableDarkMode();
-	}
-});
-
-// ------------------------------- QUESTIONS ------------------------------- //
-
-const getQuestionWrapperWithTitle = (question, index) => {
-	const questionWrapper = document.createElement("div");
-	questionWrapper.classList.add("question");
-	const titleElement = document.createElement("p");
-	titleElement.classList.add("question-text");
-	titleElement.innerText = `${index + 1}. ${question.text}`;
-	questionWrapper.append(titleElement);
-	return questionWrapper;
-};
-
-// SKAPA INPUT ELEMENT TILL DE OLIKA TYPERNA AV FRÅGOR
+// Helperfuktion för att skapa våra input element, checkbox och radiobuttons med deras tillhörande labels.
+// Vi lägger till tre attributer till inputElement, type (radio eller checkbox), name (t.ex. q3) och value (A, B, C, D)
 
 const getInputElement = (inputName, inputValue, labelText, type) => {
 	const wrapperElement = document.createElement("div");
-	wrapperElement.classList.add("form-check");
 	const inputElement = document.createElement("input");
-	inputElement.type = type; // type är ett argument till funktionen och i det här fallet är antingen radio eller checkbox
-	inputElement.setAttribute("name", inputName); // inputName är ett arguemnt till funktionen och är frågans namn, t.ex. q3
-	inputElement.value = inputValue; // inputValue är ett argument till funktionen och är frågans value (A, B, C, D)
+	inputElement.type = type;
+	inputElement.name = inputName;
+	inputElement.value = inputValue;
 	const labelElement = document.createElement("label");
-	labelElement.classList.add("form-label");
 	labelElement.innerText = labelText;
 	wrapperElement.append(inputElement);
 	wrapperElement.append(labelElement);
-	return wrapperElement; // spottas ut där vi använder oss av getInputElement funktionen
+	return wrapperElement;
 };
 
-// TYPER AV FRÅGOR
+// Helperfuktion för att skapa varje fråga
 
-// True or False Frågor
-
-const getTrueFalseQuestionElement = (question, index) => {
-	const questionWrapper = getQuestionWrapperWithTitle(question, index);
-	const trueInput = getInputElement(question.inputName, "A", "True", "radio");
-	const falseInput = getInputElement(question.inputName, "B", "False", "radio");
-	questionWrapper.append(trueInput);
-	questionWrapper.append(falseInput);
-	return questionWrapper;
-};
-
-// Multiple choice Frågor
-
-const getMultipleChoiceQuestionElement = (question, index) => {
-	const questionWrapper = getQuestionWrapperWithTitle(question, index);
-	question.choices.forEach((choice) => {
-		const inputElement = getInputElement(question.inputName, choice.value, choice.label, "radio");
-		questionWrapper.append(inputElement);
-	});
-	return questionWrapper;
-};
-
-// Checkbox frågor
-
-const getCheckboxQuestionElement = (question, index) => {
-	const questionWrapper = getQuestionWrapperWithTitle(question, index);
+const getQuestionElement = (question, index) => {
+	const questionWrapper = document.createElement("div");
+	const titleElement = document.createElement("p");
+	titleElement.innerText = `${index + 1}. ${question.text}`;
+	questionWrapper.append(titleElement);
 	question.choices.forEach((choice) => {
 		const inputElement = getInputElement(
 			question.inputName,
 			choice.value,
 			choice.label,
-			"checkbox"
+			question.type
 		);
 		questionWrapper.append(inputElement);
 	});
 	return questionWrapper;
 };
 
-// Funktion för att ändra färg på score
+// ------------------------------- QUESTION LIST ------------------------------- //
+
+const questionTypes = {
+	radio: "radio",
+	checkbox: "checkbox",
+};
+
+const questions = [
+	{
+		text: "When a spell or effect is played, it goes on the...",
+		answer: "B",
+		inputName: "q1",
+		choices: [
+			{
+				label: "Library",
+				value: "A",
+			},
+			{
+				label: "Stack",
+				value: "B",
+			},
+			{
+				label: "Statement",
+				value: "C",
+			},
+			{
+				label: "Queue",
+				value: "D",
+			},
+		],
+		type: questionTypes.radio,
+	},
+	{
+		text: "What is the standard starting life total?",
+		answer: "B",
+		inputName: "q2",
+		choices: [
+			{
+				label: "Ten",
+				value: "A",
+			},
+			{
+				label: "Twenty",
+				value: "B",
+			},
+			{
+				label: "Fifteen",
+				value: "C",
+			},
+			{
+				label: "Twentyone",
+				value: "D",
+			},
+		],
+		type: questionTypes.radio,
+	},
+	{
+		text: "What is your Library?",
+		answer: "D",
+		inputName: "q3",
+		choices: [
+			{
+				label: "The cards you have played.",
+				value: "A",
+			},
+			{
+				label: "Your Magic card collection.",
+				value: "B",
+			},
+			{
+				label: "Your hand.",
+				value: "C",
+			},
+			{
+				label: "The undrawn cards of your deck.",
+				value: "D",
+			},
+		],
+		type: questionTypes.radio,
+	},
+	{
+		text: "What is the maximum hand size at the end of your turn?",
+		answer: "C",
+		inputName: "q4",
+		choices: [
+			{
+				label: "Ten",
+				value: "A",
+			},
+			{
+				label: "There is no limit",
+				value: "B",
+			},
+			{
+				label: "Seven",
+				value: "C",
+			},
+			{
+				label: "Twelve",
+				value: "D",
+			},
+		],
+		type: questionTypes.radio,
+	},
+	{
+		text: "Does lands count as permanents?",
+		answer: "A",
+		inputName: "q5",
+		choices: [
+			{
+				label: "True",
+				value: "A",
+			},
+			{
+				label: "False",
+				value: "B",
+			},
+		],
+		type: questionTypes.radio,
+	},
+	{
+		text: "Sjätte Frågan?",
+		answer: "B",
+		inputName: "q6",
+		choices: [
+			{
+				label: "True",
+				value: "A",
+			},
+			{
+				label: "False",
+				value: "B",
+			},
+		],
+		type: questionTypes.radio,
+	},
+	{
+		text: "Sjunde Frågan?",
+		answer: "A",
+		inputName: "q7",
+		choices: [
+			{
+				label: "True",
+				value: "A",
+			},
+			{
+				label: "False",
+				value: "B",
+			},
+		],
+		type: questionTypes.radio,
+	},
+	{
+		text: "What does the Black color stand for?",
+		answer: ["A", "B", "C", "E", "G"],
+		inputName: "q8",
+		choices: [
+			{
+				label: "Power",
+				value: "A",
+			},
+			{
+				label: "Death",
+				value: "B",
+			},
+			{
+				label: "Sacrifice",
+				value: "C",
+			},
+			{
+				label: "Caution",
+				value: "D",
+			},
+			{
+				label: "Self-interest",
+				value: "E",
+			},
+			{
+				label: "Impulse",
+				value: "F",
+			},
+			{
+				label: "Uninhibitedness",
+				value: "G",
+			},
+		],
+		type: questionTypes.checkbox,
+	},
+	{
+		text: "What does the Black color stand for?",
+		answer: ["A", "B", "C", "E", "G"],
+		inputName: "q9",
+		choices: [
+			{
+				label: "Power",
+				value: "A",
+			},
+			{
+				label: "Death",
+				value: "B",
+			},
+			{
+				label: "Sacrifice",
+				value: "C",
+			},
+			{
+				label: "Caution",
+				value: "D",
+			},
+			{
+				label: "Self-interest",
+				value: "E",
+			},
+			{
+				label: "Impulse",
+				value: "F",
+			},
+			{
+				label: "Uninhibitedness",
+				value: "G",
+			},
+		],
+		type: questionTypes.checkbox,
+	},
+	{
+		text: "What does the Black color stand for?",
+		answer: ["A", "B", "C", "E", "G"],
+		inputName: "q10",
+		choices: [
+			{
+				label: "Power",
+				value: "A",
+			},
+			{
+				label: "Death",
+				value: "B",
+			},
+			{
+				label: "Sacrifice",
+				value: "C",
+			},
+			{
+				label: "Caution",
+				value: "D",
+			},
+			{
+				label: "Self-interest",
+				value: "E",
+			},
+			{
+				label: "Impulse",
+				value: "F",
+			},
+			{
+				label: "Uninhibitedness",
+				value: "G",
+			},
+		],
+		type: questionTypes.checkbox,
+	},
+];
+
+const form = document.querySelector(".quiz-form");
+
+// För varje fråga, hämta ett element med getQuestionElement och lägg till i Form.
+
+questions.forEach((question, index) => {
+	const questionElement = getQuestionElement(question, index);
+	form.append(questionElement);
+});
+
+// --------------------------------- RESULT --------------------------------- //
+
+const testcontainer = document.querySelector(".test-container");
+const resultcontainer = document.querySelector(".result-container");
+
+const resultScore = document.querySelector(".score-container");
+const resultText = document.querySelector(".answer-container");
+
+// Helperfunktion för att ändra färg på score
 
 const getColorFromScore = (score) => {
 	if (score >= 75) {
@@ -103,182 +326,25 @@ const getColorFromScore = (score) => {
 	return "#bb2323";
 };
 
-// LISTA MED FRÅGOR
-
-const questionTypes = {
-	trueFalse: "truefalse",
-	multiple: "multiple",
-	checkbox: "checkbox",
-};
-
-const questions = [
-	{
-		text: "Vem är längst?",
-		answer: "A",
-		inputName: "q1",
-		choices: [
-			{
-				label: "Patrick",
-				value: "A",
-			},
-			{
-				label: "Nell",
-				value: "B",
-			},
-			{
-				label: "Floki",
-				value: "C",
-			},
-			{
-				label: "Tonto",
-				value: "D",
-			},
-		],
-		type: questionTypes.multiple,
-	},
-	{
-		text: "Vilken karaktär är med i Attack on Titan?",
-		answer: "B",
-		inputName: "q2",
-		choices: [
-			{
-				label: "Eren",
-				value: "A",
-			},
-			{
-				label: "Askeladd",
-				value: "B",
-			},
-			{
-				label: "Floki",
-				value: "C",
-			},
-			{
-				label: "Thor",
-				value: "D",
-			},
-		],
-		type: questionTypes.multiple,
-	},
-	{
-		text: "Trejde Frågan?",
-		answer: "A",
-		inputName: "q3",
-		type: questionTypes.truefalse,
-	},
-	{
-		text: "Fjärde Frågan?",
-		answer: "B",
-		inputName: "q4",
-		type: questionTypes.truefalse,
-	},
-	{
-		text: "Femte Frågan?",
-		answer: "A",
-		inputName: "q5",
-		type: questionTypes.truefalse,
-	},
-	{
-		text: "Sjätte Frågan?",
-		answer: "B",
-		inputName: "q6",
-		type: questionTypes.truefalse,
-	},
-	{
-		text: "Sjunde Frågan?",
-		answer: "A",
-		inputName: "q7",
-		type: questionTypes.truefalse,
-	},
-	{
-		text: "Åttonde Frågan?",
-		answer: "B",
-		inputName: "q8",
-		type: questionTypes.truefalse,
-	},
-	{
-		text: "Nionde Frågan?",
-		answer: "A",
-		inputName: "q9",
-		type: questionTypes.truefalse,
-	},
-	{
-		text: "Tionde Frågan",
-		answer: ["B", "A"],
-		inputName: "q10",
-		choices: [
-			{
-				label: "Hej1",
-				value: "A",
-			},
-			{
-				label: "Hej2",
-				value: "B",
-			},
-			{
-				label: "Hej3",
-				value: "C",
-			},
-			{
-				label: "Hej4",
-				value: "D",
-			},
-		],
-		type: questionTypes.checkbox,
-	},
-];
-
-const form = document.querySelector(".quiz-form");
-
-// För varje fråga, hämta ett element för den frågan och lägg till i html-formuläret
-
-questions.forEach((question, index) => {
-	if (question.type === questionTypes.checkbox) {
-		const questionElement = getCheckboxQuestionElement(question, index);
-		form.append(questionElement);
-	}
-	if (question.type === questionTypes.truefalse) {
-		const questionElement = getTrueFalseQuestionElement(question, index);
-		form.append(questionElement);
-	}
-	if (question.type === questionTypes.multiple) {
-		const questionElement = getMultipleChoiceQuestionElement(question, index);
-		form.append(questionElement);
-	}
-});
-
-// Element från DOM:en att användas när man lämnar in svaret för att dölja frågorna (testcontainer) och visar resultatet (resultcontainer)
-
-const testcontainer = document.querySelector(".test-container");
-const resultcontainer = document.querySelector(".result-container");
-
-// Element från DOM:en där resultat visas upp
-
-const resultScore = document.querySelector(".score-container");
-const resultText = document.querySelector(".answer-container");
-
-// Resultat
+// Helperfunktion som hämtar värden från checkbox frågor.
 
 const getValuesForCheckboxQuestion = (question) => {
-	// Hämtar alla inputelement där namnet är q{questionIndex + 1} som även är ikryssade.
+	// Hämtar alla inputelement som har samma namn samt är ikryssade.
 	const checkboxes = document.querySelectorAll(`input[name="${question.inputName}"]:checked`);
-	// Vi plockar bara checkboxes som är checked
-	let values = [];
-	// För varje checkbox i checkboxes som är checked, ta det värdet(A, B, C, D) och lägg till det i values listan
+	const values = [];
+	// För varje checkbox i checkboxes som är checked, ta det värdet(A, B, C, D) och lägg till det i values listan.
 	checkboxes.forEach((checkbox) => {
 		values.push(checkbox.value);
 	});
 	return values;
 };
 
-// Den här funktionens funktion är att kolla så att listorna innehåller samma strängar.
+// Helperfunktion som kontrollerar att svar och facitlistorna innehhåller samma strängar
+// genom att sortera listorna och därefter konvertera dom till strängar.
 
 const compareValueArrays = (values1, values2) => {
-	// Är två listor av strängar
-	// Sorterar listorna och därefter konverterar de sorterade listorna till strängar
 	const valueString1 = JSON.stringify(values1.sort());
 	const valueString2 = JSON.stringify(values2.sort());
-	// Om strängarna är identiska så innehåller listorna samma saker och vi returnerar true
 	return valueString1 === valueString2;
 };
 
@@ -287,54 +353,51 @@ form.addEventListener("submit", (e) => {
 
 	let score = 0;
 	let answerString = "";
-	// Dessa kommer att fyllas baserat på ens svar
-	questions.forEach((question, index) => {
-		if (question.type === questionTypes.checkbox) {
-			// Hämtar svaren du fyllt i
-			const values = getValuesForCheckboxQuestion(question);
-			// Jämför svaren du fyllt i med frågans facit
-			const isCorrect = compareValueArrays(values, question.answer);
 
-			// Om isCorrect är true kör detta
+	questions.forEach((question, index) => {
+		// Först kollar vi om question type är checkboxes, om det är checkboxes så använder vi
+		// helperfunktionen för att få svaren, sedan jämför vi svaren med frågans facit.
+		// Om variabel isCorrect kommer tillbaka som true så lägger vi till 100/q.length till score.
+		if (question.type === questionTypes.checkbox) {
+			const values = getValuesForCheckboxQuestion(question);
+			const isCorrect = compareValueArrays(values, question.answer);
 			if (isCorrect) {
-				// += vi ökar score med 100/q.length
 				score += 100 / questions.length;
-				answerString += `${index + 1}. ${question.text} : Rätt\n`;
+				answerString += `${index + 1}. ${question.text} : Correct!\n`;
 			} else {
-				answerString += `${index + 1}. ${question.text} : Fel\n`;
+				answerString += `${index + 1}. ${question.text} : Wrong!\n`;
 			}
 		} else {
 			// Om det inte är checkbox vet vi att det är radio buttons och endast ett korrekt svar
-			//här kollar man frågans namn och kollar värdet som är ikryssat med det namnet.
+			// Så här kontrollerar vi om vårat formAnswer är samma som vår frågans facit.
 			const formAnswer = form[question.inputName].value;
 			if (formAnswer === question.answer) {
 				score += 100 / questions.length;
-				answerString += `${index + 1}. ${question.text} : Rätt\n`;
+				answerString += `${index + 1}. ${question.text} : Correct!\n`;
 			} else {
-				answerString += `${index + 1}. ${question.text} : Fel\n`;
+				answerString += `${index + 1}. ${question.text} : Wrong!\n`;
 			}
 		}
 	});
 
+	// setTimeout behövde användas då jag fick problem med att få resultatet att fade:a in snyggt.
+	// Jag tänkte först göra resultatet till display none för att det inte skulle ta upp plats i layouten innan det skulle visas.
+	// Samtidigt som att det skulle fade:a in när det ska visas, problemet var att om man tar bort display none och lägger till
+	// opacity 1 samtidigt triggas inte animationen från opacity 0 till 1, då allt utfördes i ett steg i JS.
+	// Men med setTimeout kan man ta bort display none, och därefter ändra till opacity 1 i två separata steg.
+
 	testcontainer.classList.add("hidden");
 	resultcontainer.classList.remove("hidden");
-	// Används för att jag hade ett problem med att få resultatet att fada in snyggt. Jag ville göra display none på resultatet så att det inte
-	// tar upp plats i layouten innan det ska visas men ville samtidigt att den skulle fada in när den visas, problemet är att om man tar bort
-	// display none och lägger till opacity 1 samtidigt så triggas inte animationen från opacity 0 till opacity 1 så med setTimeout så kan man
-	// först ta bort display none och därefter ändra opacity till 1 i två separata steg. Vilket gör att vi får vår önskade animation. Är det
-	// någon annan som har en bättre lösning????????
-
 	setTimeout(() => resultcontainer.classList.add("visible"), 0);
 
-	// Här presenteras resultatet genom att lägga till vår text ifrån answerString med vilka frågor man har haft rätt och fel på.
+	// Här presenteras resultatet genom att lägga till vår text av frågor med rätt och fel ifrån answerString i p-taggen. :)
 	resultText.querySelector("p").innerText = answerString;
 
 	// Här börjar vi animationen av resultatet i procentform.
 	let output = 0;
 	const timer = setInterval(() => {
-		// math floor används för att avrunda ner talet för att inte få ett tal med många decimaler.
-		resultScore.querySelector("span").textContent = `${Math.floor(output)}%`;
-		resultScore.querySelector("span").style.color = getColorFromScore(Math.floor(output));
+		resultScore.querySelector("span").textContent = `${output}%`;
+		resultScore.querySelector("span").style.color = getColorFromScore(output);
 		if (output >= score) {
 			clearInterval(timer);
 		} else {
